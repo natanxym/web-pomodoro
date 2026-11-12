@@ -5,6 +5,7 @@ const workTimeElement = document.querySelector("#work-time-options");
 const turnElement = document.querySelector(".turns");
 const totalTurnsElement = document.querySelector("#total-turns-options");
 const timeModeElement = document.querySelector(".time-mode");
+const notificationSound = document.querySelector("#notification");
 
 controlButton.addEventListener("click", toggleStartPause);
 resetButton.addEventListener("click", reset);
@@ -72,8 +73,10 @@ function nextTurn() {
   if (currentTurn <= totalTurns) {
     if (isBreakTime) {
       totalTime = currentTurn < totalTurns ? breakTime : longBreakTime;
+      showNotification("Hora de descansar", "Parabéns pelo trabalho, aproveite para descansar!");
     } else {
       totalTime = workTime;
+      showNotification("Voltar ao trabalho", "Você está quase lá, só mais alguns minutos!");
     }
     timeRemaining = totalTime;
   } else {
@@ -81,7 +84,15 @@ function nextTurn() {
   }
 }
 
+function showNotification(title, body) {
+  if (Notification.permission === "granted") {
+    const notification = new Notification(title, { body });
+    setTimeout(() => notification.close(), 4000);
+  }
+}
+
 function finishTurn() {
+  notificationSound.play()
   nextTurn();
   updateUI();
 }
@@ -101,6 +112,9 @@ function updateUI() {
 }
 
 function start() {
+  if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
   isRunning = true
   controlButton.innerText = "Pausar";
   timer = setInterval(updateTimer, 10);
