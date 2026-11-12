@@ -1,20 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt=br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pomodoro Web</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro Web</title>
 
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="stage">1/4</div>
-  <div class="time">00:00</div>
-  <div class="button">
-    <button class="timerControl">Iniciar</button>
-    <button class="resetButton">Reiniciar</button>
-  </div>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="turns animate-slide-in-down">0/4</div>
+      <div class="time">00:00</div>
+      <span class="icon-config" id="toggle-config">⚙️</span>
+      <div id="drop-content">
+        <div class="select-options">
+          <label for="work-time-options">Tempo:</label>
+          <select name="work-options" id="work-time-options" onchange="reset()">
+            <option value="25 selected">25 minutos</option>
+            <option value="35 selected">35 minutos</option>
+            <option value="45 selected">45 minutos</option>
+            <option value="55 selected">55 minutos</option>
+          </select>
+          <label for="total-turns-options">Turnos:</label>
+          <select name="qtde-turns" id="total-turns-options" onchange="reset()">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+          </select>
+        </div>
+      </div>
+      <div class="time-mode animate-zoom-in">Trabalho</div>
+      <div class="button">
+        <button class="timer-control">Iniciar</button>
+        <button class="reset-button">Reiniciar</button>
+      </div>
+    </main>
 
-  <script src="scripts.js"></script>
-</body>
+    <script src="scripts.js"></script>
+  </body>
 </html>

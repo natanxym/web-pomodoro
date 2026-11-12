@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
 body {
@@ -22,6 +22,16 @@ body {
   display: flex;
   justify-content: center;
   margin-block: 80px;
+}
+
+#toggle-config {
+  cursor: pointer;
+}
+
+#drop-content {
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 
 .button {
