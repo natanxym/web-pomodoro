@@ -6,6 +6,7 @@ const turnElement = document.querySelector(".turns");
 const totalTurnsElement = document.querySelector("#total-turns-options");
 const timeModeElement = document.querySelector(".time-mode");
 const notificationSound = document.querySelector("#notification");
+const circleElement = document.querySelector(".circle");
 
 controlButton.addEventListener("click", toggleStartPause);
 resetButton.addEventListener("click", reset);
@@ -53,9 +54,20 @@ function initTimerSettings() {
 }
 
 function updateTurnDisplay() {
-  const mode = isBreakTime ? (currentTurn < totalTurns ? "Descanso" : "Descanso Longo") : "Trabalho";
+  const mode = isBreakTime ? (currentTurn < totalTurns ? "Descanso" :     "Descanso Longo") : "Trabalho";
+
   timeModeElement.innerText = mode;
   turnElement.innerText = `${currentTurn}/${totalTurns}`;
+
+  const percent = (timeRemaining / totalTime) * 100;
+  setCirclePercent(percent);
+}
+
+function setCirclePercent(percent) {
+  // 2*PI*R
+  const circlePerimeter = 565.49;
+  const dashOffset = circlePerimeter - (circlePerimeter * percent) / 100;
+  circleElement.style.setProperty("--dash-offset", dashOffset);
 }
 
 function updateTimeDisplay() {
@@ -117,7 +129,7 @@ function start() {
   }
   isRunning = true
   controlButton.innerText = "Pausar";
-  timer = setInterval(updateTimer, 10);
+  timer = setInterval(updateTimer, 1000);
 }
 
 function pause() {

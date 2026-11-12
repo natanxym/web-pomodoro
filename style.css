@@ -1,30 +1,46 @@
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  /* text-decoration: none; */
+:root {
+  --timer-color: #cc5510;
+  --text-color: #f0f0f0;
+  --bg-color: #1f1e1e;
+  --button-hover: #8b3502;
 }
 
 body {
-  background: gray;
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
-.stage {
+main {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  /* gap: 24px; */
 }
 
-.time {
+.turn-container {
   display: flex;
-  justify-content: center;
-  margin-block: 80px;
+  align-items: center;
+  padding-block-end: 20px;
 }
 
-#toggle-config {
+.turns {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon-config {
+  position: absolute;
+  left: calc(50% + 25px);
+  margin-bottom: 1.5px;
   cursor: pointer;
 }
 
@@ -32,12 +48,80 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
+  padding-bottom: 20px;
+}
+
+#drop-content #work-time-options,
+#total-turns-options {
+  background: var(--timer-color);
+}
+
+.time-mode {
+  display: flex;
+  justify-content: center;
+}
+
+.time-container {
+  display: flex;
+  justify-content: center;
+  margin-block: 24px;
+}
+
+.circle-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.circle-container {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.background-circle {
+  fill: none;
+  stroke: var(--timer-color);
+  stroke-width: 5;
+}
+
+.circle {
+  fill: none;
+  stroke: var(--timer-color);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 565.49;
+  stroke-dashoffset: 0;
+  transform: rotate(-90deg);
+  transform-origin: 100px 100px;
+}
+
+.time {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8em;
+  line-height: 1;
 }
 
 .button {
   display: flex;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
+}
+
+button {
+  padding: 10px 30px;
+  border-radius: 6px;
+  border: none;
+  color: var(--text-color);
+  background: var(--timer-color);
+}
+
+button:hover {
+  background: var(--button-hover);
 }
 
 .button button {

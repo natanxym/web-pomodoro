@@ -10,9 +10,10 @@
   <body>
     <main>
       <audio id="notification" src="notification.mp3"></audio>
-      <div class="turns animate-slide-in-down">0/4</div>
-      <div class="time">00:00</div>
-      <span class="icon-config" id="toggle-config">⚙️</span>
+      <div class="turn-container">
+        <div class="turns animate-slide-in-down">0/4</div>
+        <span class="icon-config" id="toggle-config">⚙️</span>
+      </div>
       <div id="drop-content">
         <div class="select-options">
           <label for="work-time-options">Tempo:</label>
@@ -32,6 +33,17 @@
         </div>
       </div>
       <div class="time-mode animate-zoom-in">Trabalho</div>
+
+      <div class="time-container animate-rotate-in">
+        <div class="circle-wrapper">
+          <svg width="200" height="200" class="circle-container">
+            <circle class="background-circle" r="90" cx="100" cy="100"></circle>
+            <circle class="circle" r="90" cx="100" cy="100"></circle>
+          </svg>
+          <div class="time">00:00</div>
+        </div>
+      </div>
+
       <div class="button">
         <button class="timer-control">Iniciar</button>
         <button class="reset-button">Reiniciar</button>
