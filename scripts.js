@@ -10,6 +10,7 @@ const circleElement = document.querySelector(".circle");
 const testMode = new URLSearchParams(location.search).has("teste");
 const shortBreak = testMode ? 5 : 5 * 60;
 const longbreak = testMode ? 8 : 15 * 60;
+const workTest = 10;
 
 controlButton.addEventListener("click", toggleStartPause);
 resetButton.addEventListener("click", resetStage);
@@ -50,7 +51,7 @@ function initTimerSettings() {
   const turnsValue = parseInt(totalTurnsElement.value);
   isRunning = false;
   isBreakTime = false;
-  workTime = workValue * 60;
+  workTime = testMode ? workTest : workValue * 60;
   totalTurns = turnsValue;
   currentTurn = 0;
   totalTime = workTime;
@@ -140,7 +141,7 @@ function start() {
   isRunning = true;
   endTime = Date.now() + timeRemaining * 1000;
   controlButton.innerText = "Pausar";
-  timer = setInterval(updateTimer, 10);
+  timer = setInterval(updateTimer, 1000);
 }
 
 function pause() {

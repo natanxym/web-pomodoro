@@ -23,8 +23,8 @@ body {
 
 main {
   justify-content: center;
-  width: 320px;
-  height: 400px;
+  width: 420px;
+  height: 520px;
   margin-block: 40px;
   border-radius: 4px;
   border: solid 4px var(--bg-stroke-color);
@@ -69,16 +69,17 @@ main {
   display: none;
   justify-content: center;
   align-items: center;
-  padding-bottom: 20px;
 }
 
 #drop-content select {
   cursor: pointer;
+  margin: 10px 6px;
 }
 
 #drop-content #work-time-options,
 #total-turns-options {
   background: var(--timer-color);
+  border: none;
   border-radius: 4px;
 }
 
