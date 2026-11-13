@@ -7,6 +7,8 @@ const totalTurnsElement = document.querySelector("#total-turns-options");
 const timeModeElement = document.querySelector(".time-mode");
 const notificationSound = document.querySelector("#notification");
 const circleElement = document.querySelector(".circle");
+const shortBreak = 5 * 60;
+const longbreak = 15 * 60;
 
 controlButton.addEventListener("click", toggleStartPause);
 resetButton.addEventListener("click", reset);
@@ -16,8 +18,6 @@ let timer = null;
 let isRunning = false
 let isBreakTime = false;
 let workTime = 0;
-let breakTime = 0;
-let longBreakTime = 0;
 let totalTurns = 0;
 let currentTurn = 1;
 let totalTime = 0;
@@ -44,8 +44,6 @@ function initTimerSettings() {
   isRunning = false;
   isBreakTime = false;
   workTime = workValue * 60;
-  breakTime = (workValue / 5) * 60;
-  longBreakTime = (workValue - 10) * 60;
   totalTurns = turnsValue;
   currentTurn = 0;
   totalTime = workTime;
@@ -58,9 +56,6 @@ function updateTurnDisplay() {
 
   timeModeElement.innerText = mode;
   turnElement.innerText = `${currentTurn}/${totalTurns}`;
-
-  const percent = (timeRemaining / totalTime) * 100;
-  setCirclePercent(percent);
 }
 
 function setCirclePercent(percent) {
@@ -76,6 +71,9 @@ function updateTimeDisplay() {
     .padStart(2, "0");
   const seconds = (timeRemaining % 60).toString().padStart(2, "0");
   timeElement.innerText = `${minutes}:${seconds}`;
+
+  const percent = (timeRemaining / totalTime) * 100;
+  setCirclePercent(percent);
 }
 
 function nextTurn() {
@@ -84,7 +82,7 @@ function nextTurn() {
 
   if (currentTurn <= totalTurns) {
     if (isBreakTime) {
-      totalTime = currentTurn < totalTurns ? breakTime : longBreakTime;
+      totalTime = currentTurn < totalTurns ? shortBreak : longbreak;
       showNotification("Hora de descansar", "Parabéns pelo trabalho, aproveite para descansar!");
     } else {
       totalTime = workTime;
@@ -129,7 +127,7 @@ function start() {
   }
   isRunning = true
   controlButton.innerText = "Pausar";
-  timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 10);
 }
 
 function pause() {
