@@ -24,6 +24,8 @@ let totalTurns = 0;
 let currentTurn = 1;
 let totalTime = 0;
 let endTime = 0;
+let shownTurn = 0;
+let turnStarted = false;
 
 document.getElementById("toggle-config").addEventListener("click", () => {
   const config = document.getElementById("drop-content");
@@ -54,6 +56,8 @@ function initTimerSettings() {
   workTime = testMode ? workTest : workValue * 60;
   totalTurns = turnsValue;
   currentTurn = 0;
+  shownTurn = 0;
+  turnStarted = false; 
   totalTime = workTime;
   timeRemaining = totalTime;
   timer = null;
@@ -64,7 +68,7 @@ function updateTurnDisplay() {
   if (isBreakTime) mode = currentTurn >= totalTurns ? "Pausa Longa" : "Pausa";
 
   timeModeElement.innerText = mode;
-  turnElement.innerText = `${currentTurn}/${totalTurns}`;
+  turnElement.innerText = `${shownTurn}/${totalTurns}`;
 }
 
 function setCirclePercent(percent) {
@@ -86,21 +90,28 @@ function updateTimeDisplay() {
 }
 
 function nextTurn() {
-  isBreakTime = !isBreakTime;
-  if (!isBreakTime) currentTurn ++;
-
-  if (currentTurn <= totalTurns) {
-    if (isBreakTime) {
-      totalTime = currentTurn < totalTurns ? shortBreak : longbreak;
-      showNotification("Hora de descansar", "Parabéns pelo trabalho, aproveite para descansar!");
-    } else {
-      totalTime = workTime;
-      showNotification("Voltar ao trabalho", "Você está quase lá, só mais alguns minutos!");
-    }
-    timeRemaining = totalTime;
+  if (!isBreakTime) {
+    currentTurn++;
+    isBreakTime = true;
+    totalTime = currentTurn >= totalTurns ? longbreak : shortBreak;
+    showNotification("Hora de descansar", "Parabéns pelo trabalho, aproveite para descansar!");
+  } else if (currentTurn >= totalTurns) {
+    currentTurn = 0;
+    isBreakTime = false;
+    totalTime = workTime;
+    shownTurn = 0;
+    turnStarted = false;
+    showNotification("Novo ciclo", "Pausa longa concluída. Bora para o próximo ciclo!");
   } else {
-    reset();
+    isBreakTime = false;
+    totalTime = workTime;
+    turnStarted = false;    // ← o próximo foco ainda não foi contado
+    showNotification("Voltar ao trabalho", "Você está quase lá, só mais alguns minutos!");
   }
+
+  timeRemaining = totalTime;
+  pause();
+  updateUI();
 }
 
 function showNotification(title, body) {
@@ -138,6 +149,13 @@ function start() {
   if (Notification.permission === "default") {
     Notification.requestPermission();
   }
+
+  if (!isBreakTime && !turnStarted) {
+    shownTurn++;
+    turnStarted = true;
+    updateTurnDisplay();
+  }
+
   isRunning = true;
   endTime = Date.now() + timeRemaining * 1000;
   controlButton.innerText = "Pausar";
