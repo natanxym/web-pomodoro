@@ -7,8 +7,9 @@ const totalTurnsElement = document.querySelector("#total-turns-options");
 const timeModeElement = document.querySelector(".time-mode");
 const notificationSound = document.querySelector("#notification");
 const circleElement = document.querySelector(".circle");
-const shortBreak = 5 * 60;
-const longbreak = 15 * 60;
+const testMode = new URLSearchParams(location.search).has("teste");
+const shortBreak = testMode ? 5 : 5 * 60;
+const longbreak = testMode ? 8 : 15 * 60;
 
 controlButton.addEventListener("click", toggleStartPause);
 resetButton.addEventListener("click", resetStage);
