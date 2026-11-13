@@ -11,7 +11,7 @@ const shortBreak = 5 * 60;
 const longbreak = 15 * 60;
 
 controlButton.addEventListener("click", toggleStartPause);
-resetButton.addEventListener("click", reset);
+resetButton.addEventListener("click", resetStage);
 
 let timeRemaining = 0;
 let timer = null;
@@ -31,10 +31,22 @@ function toggleStartPause() {
   isRunning ? pause() : start();
 }
 
-function reset() {
+// function reset() {
+//   pause();
+//   initTimerSettings();
+//   updateTimeDisplay();
+//   updateUI();
+// }
+
+function resetStage() {
+  pause();
+  timeRemaining = totalTime;
+  updateUI();
+}
+
+function applySettings() {
   pause();
   initTimerSettings();
-  updateTimeDisplay();
   updateUI();
 }
 
@@ -52,7 +64,8 @@ function initTimerSettings() {
 }
 
 function updateTurnDisplay() {
-  const mode = isBreakTime ? (currentTurn < totalTurns ? "Descanso" :     "Descanso Longo") : "Trabalho";
+  let mode = "Foco";
+  if (isBreakTime) mode = currentTurn >= totalTurns ? "Pausa Longa" : "Pausa";
 
   timeModeElement.innerText = mode;
   turnElement.innerText = `${currentTurn}/${totalTurns}`;
@@ -137,4 +150,5 @@ function pause() {
 }
 
 initTimerSettings();
-start();
+pause();
+updateUI();
