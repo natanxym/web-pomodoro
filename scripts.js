@@ -21,6 +21,7 @@ let workTime = 0;
 let totalTurns = 0;
 let currentTurn = 1;
 let totalTime = 0;
+let endTime = 0;
 
 document.getElementById("toggle-config").addEventListener("click", () => {
   const config = document.getElementById("drop-content");
@@ -30,13 +31,6 @@ document.getElementById("toggle-config").addEventListener("click", () => {
 function toggleStartPause() {
   isRunning ? pause() : start();
 }
-
-// function reset() {
-//   pause();
-//   initTimerSettings();
-//   updateTimeDisplay();
-//   updateUI();
-// }
 
 function resetStage() {
   pause();
@@ -121,10 +115,13 @@ function finishTurn() {
 }
 
 function updateTimer() {
-  if (timeRemaining > 0) {
-    timeRemaining--;
-    updateTimeDisplay();
-  } else {
+  timeRemaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
+  updateTimeDisplay();
+
+  if (timeRemaining === 0) {
+    clearInterval(timer);
+    timer = null;
+    isRunning = false;
     finishTurn();
   }
 }
@@ -135,18 +132,25 @@ function updateUI() {
 }
 
 function start() {
-  if (Notification.permission !== "granted") {
+  if (isRunning) return;
+  if (Notification.permission === "default") {
     Notification.requestPermission();
   }
-  isRunning = true
+  isRunning = true;
+  endTime = Date.now() + timeRemaining * 1000;
   controlButton.innerText = "Pausar";
   timer = setInterval(updateTimer, 10);
 }
 
 function pause() {
+  if (isRunning) {
+    timeRemaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
+  }
   isRunning = false;
-  controlButton.innerText = "Iniciar";
   clearInterval(timer);
+  timer = null;
+  controlButton.innerText = "Iniciar";
+  updateTimeDisplay();
 }
 
 initTimerSettings();
